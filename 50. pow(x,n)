@@ -1,0 +1,25 @@
+
+class Solution:
+    def myPow(self, x, n):
+        if n == 0:
+            return 1.0
+
+        power = abs(n)
+        result = 1.0
+        base = x
+
+        while power > 0:
+            if power % 2 == 1:
+                result *= base
+
+            base *= base
+            power //= 2
+
+        if n < 0:
+            result = 1.0 / result
+
+        return result
+
+
+
+
