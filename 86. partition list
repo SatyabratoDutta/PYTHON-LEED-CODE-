@@ -1,0 +1,25 @@
+class Solution:
+    def partition(self, head, x):
+        less = ListNode(0)
+        greater = ListNode(0)
+
+        p1 = less
+        p2 = greater
+
+        curr = head
+
+        while curr:
+            if curr.val < x:
+                p1.next = curr
+                p1 = p1.next
+            else:
+                p2.next = curr
+                p2 = p2.next
+
+            curr = curr.next
+
+        p2.next = None
+        p1.next = greater.next
+
+        return less.next
+        
