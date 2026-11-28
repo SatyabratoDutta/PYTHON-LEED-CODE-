@@ -1,0 +1,47 @@
+from collections import defaultdict, deque
+
+class Solution:
+    def findLadders(self, beginWord, endWord, wordList):
+        wordSet = set(wordList)
+
+        if endWord not in wordSet:
+            return []
+
+        parents = defaultdict(list)
+        queue = deque([beginWord])
+        found = False
+
+        while queue and not found:
+            visited = set()
+
+            for _ in range(len(queue)):
+                word = queue.popleft()
+
+                for i in range(len(word)):
+                    for c in 'abcdefghijklmnopqrstuvwxyz':
+                        newWord = word[:i] + c + word[i+1:]
+
+                        if newWord in wordSet:
+                            parents[newWord].append(word)
+                            visited.add(newWord)
+
+                            if newWord == endWord:
+                                found = True
+
+            wordSet -= visited
+            queue.extend(visited)
+
+        result = []
+
+        def backtrack(word, path):
+            if word == beginWord:
+                result.append([beginWord] + path[::-1])
+                return
+
+            for parent in parents[word]:
+                backtrack(parent, path + [word])
+
+        if found:
+            backtrack(endWord, [])
+
+        return result
